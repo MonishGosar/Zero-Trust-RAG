@@ -1,0 +1,22 @@
+[
+  {"question":"What was APAC revenue?","expected_text":"$82M","section":"Revenue by region"},
+  {"question":"What was EMEA revenue?","expected_text":"$65M","section":"Revenue by region"},
+  {"question":"What was Americas revenue?","expected_text":"$102M","section":"Revenue by region"},
+  {"question":"How much did APAC grow?","expected_text":"12%","section":"Revenue by region"},
+  {"question":"How much did EMEA grow?","expected_text":"8%","section":"Revenue by region"},
+  {"question":"How much did Americas grow?","expected_text":"10%","section":"Revenue by region"},
+  {"question":"What was total revenue?","expected_text":"$249M","section":"Revenue by region"},
+  {"question":"What drove APAC growth?","expected_text":"enterprise contracts","section":"Revenue by region"},
+  {"question":"What drove EMEA growth?","expected_text":"renewals","section":"Revenue by region"},
+  {"question":"What drove Americas growth?","expected_text":"expansion deals","section":"Revenue by region"},
+  {"question":"How much were operating expenses?","expected_text":"$171M","section":"Expenses"},
+  {"question":"What were research and development expenses?","expected_text":"$54M","section":"Expenses"},
+  {"question":"How much was spent on sales and marketing?","expected_text":"$72M","section":"Expenses"},
+  {"question":"What were general and administrative expenses?","expected_text":"$45M","section":"Expenses"},
+  {"question":"How many enterprise customers were there?","expected_text":"1,420","section":"Customer metrics"},
+  {"question":"What was net revenue retention?","expected_text":"118%","section":"Customer metrics"},
+  {"question":"What was customer satisfaction?","expected_text":"91%","section":"Customer metrics"},
+  {"question":"What was annual logo churn?","expected_text":"4%","section":"Customer metrics"},
+  {"question":"What is the next-quarter priority?","expected_text":"onboarding","section":"Plans"},
+  {"question":"What is the primary risk?","expected_text":"procurement","section":"Risks"}
+]
