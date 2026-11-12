@@ -161,13 +161,27 @@ The live gate requires at least 90% of cases to pass request, retrieval,
 expected-value, citation and reference checks. It is separate from the stricter
 permission gate. A successful finite suite does not establish universal security.
 
-Validation: 68 targeted backend/scoring tests pass (one real Docling DOCX
+Validation: 90 targeted backend/scoring/SDK tests pass (one real Docling DOCX
 conversion test deselected), Ruff passes, and the permission gate passes.
 Full Docling conversion and frontend/browser suites were outside this change's
 targeted validation. CI runs the security, Azure-provider and scoring tests plus
-the 60-case permission gate without cloud credentials.
+the 60-case permission gate with the optional financial guard enabled, plus
+the financial consistency and SDK tests, without cloud credentials.
 
 ## Next experiments
+
+The optional `FINANCIAL_EVIDENCE_CHECKS=true` answer-text guard adds a separate
+[13-case numeric consistency suite](results/financial-evidence.json). Reference
+validation alone accepted all seven unsupported examples; the guard accepts
+none of them and preserves all six supported examples. It checks monetary and
+percentage literals per trailing citation group, not semantic entailment,
+entity/period attribution, derived quantities, prose or UI data. Nonfinancial
+answers are explicitly `not_checked`. Historical live-model results above have
+not been rerun through this new option; their original scope is unchanged.
+
+```sh
+uv run --no-sync python -m scripts.benchmark_financial_evidence --output benchmark-output/financial-evidence.json --gate
+```
 
 1. Expand permission scenarios to source ACL sync, index lag, concurrent load and
    lifecycle operations. Keep denials and authorized usefulness visible together.

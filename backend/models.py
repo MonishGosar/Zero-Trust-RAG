@@ -62,3 +62,4 @@ class Answer(BaseModel):
     duration_ms: int
     generative_ui: dict | None = None
     security_trace: dict | None = None
+    evidence_checks: dict | None = None

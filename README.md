@@ -32,15 +32,33 @@ uv run python -m scripts.benchmark_answers --output benchmark-output/answers.jso
 
 The permission run needs no Azure credentials. The answer run uses your configured Azure deployments. See [benchmark setup, raw reports, scoring limits and CI gates](benchmarks/README.md).
 
+## Optional financial evidence check
+
+Set `FINANCIAL_EVIDENCE_CHECKS=true` to check literal money and percentage values in answer text against the passages cited after each claim span. It understands formats such as `$82M`, `$82 million` and `$82,000,000`, preserves signs/scales, and withholds the answer when a financial value is unsupported by its cited passages or appears in an uncited tail. It also suppresses generated UI when the answer is withheld. The API reports the check's scope and `passed`, `failed` or `not_checked` status in `evidence_checks`.
+
+The guard is opt-in because it is deliberately conservative: derived amounts, spelled-out numbers, values whose units exist only in table headers, entity/period attribution, non-numeric prose and chart/table UI values are not semantically verified. A supported number with the wrong entity can still pass. A valid citation plus a matching value is not proof that every claim is true.
+
+The [13-case regression report](benchmarks/results/financial-evidence.json) shows unsupported-value acceptance falling from **7 to 0**, while all **6 supported cases** remain allowed. These are authored literal-consistency cases, not RAGBench or a semantic claim-precision score. The existing 60-case permission suite also passes with this option enabled.
+
+## Embed through the preview Python SDK
+
+```sh
+pip install ./sdk/python
+```
+
+The independent `folio-client` preview provides asynchronous login/logout, typed retrieval and answers, progress events and final streamed answers. Tenant/ACL enforcement stays on the API; the SDK has no client-side authorization bypass or result cache. Use a separate Folio session for each end user. SharePoint/Entra identity mapping and source ACL synchronization are not implemented.
+
+See the [SDK usage and session contract](sdk/python/README.md). Integration tests cover anonymous and forbidden access, allowed answers/evidence, logout, failed identity switches and stream errors after HTTP 200.
+
 ## Product direction and priorities
 
-The proposed customer is a SaaS team embedding document answers into its own application. The goal is an **embeddable permission and evidence layer with measurable source-permission freshness and replayable access decisions**. A stable SDK, external identity integration and source ACL synchronization are planned; the current reference app uses its local accounts and document policies.
+The proposed customer is a SaaS team embedding document answers into its own application. The goal is an **embeddable permission and evidence layer with measurable source-permission freshness and replayable access decisions**. A preview Python SDK is available; a stable production SDK contract, external identity integration and source ACL synchronization are planned. The current reference app uses its local accounts and document policies. The optional numeric evidence guard is an initial consistency check; full claim-level support remains planned.
 
 Permission-aware search and revocation testing already exist in enterprise products; [Glean documents tests for identity changes, source permissions, caches, citations and sync timing](https://www.glean.com/perspectives/how-do-you-test-ai-search-permissions-after-an-employee-changes-teams). Our hypothesis is that application teams will value easier embedding into their own stack and independently inspectable evidence. Integration effort and customer outcomes must be measured before claiming an advantage.
 
 | Priority | Planned improvement | Proof that it helps |
 | --- | --- | --- |
-| 1 | Add a stable retrieval/answer SDK, managed identity integration, and one real source connector, starting with SharePoint/Entra ID. Preserve inherited ACLs, direct shares, groups, guests and deletion events. | A pilot team embeds it without manually recreating document permissions; compare integration time with its current approach. |
+| 1 | Harden the preview SDK's production contract and add managed identity integration plus one real source connector, starting with SharePoint/Entra ID. Preserve inherited ACLs, direct shares, groups, guests and deletion events. | A pilot team embeds it without manually recreating document permissions; compare integration time with its current approach. |
 | 2 | Track source permission versions, policy observation times, cache invalidation and decision reasons. Export access-decision records that a customer can replay. | Measure source-change-to-enforcement p50/p95/p99 and worst observed delay; exercise stale ACLs, outages, in-flight revocation and deletion. Publish the supported freshness contract and test authorized access alongside denials. |
 | 3 | Check support for individual answer claims, especially amounts, percentages and dates. Abstain or remove unsupported claims. | Human-reviewed held-out questions show better supported-claim precision while preserving useful answers; measure false abstentions separately. A valid citation number alone is insufficient. |
 | 4 | Compare dense retrieval, lexical+dense hybrid search and reranking. Apply tenant/ACL checks before every retrieval branch and before any external reranker receives passages. | Improve retrieval on training data, then evaluate untouched SciFact and a second corpus, while preserving the permission gate. Report answer quality, latency and cost as well as nDCG/Recall. |

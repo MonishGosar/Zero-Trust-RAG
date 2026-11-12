@@ -1,0 +1,73 @@
+{
+  "sources": [
+    "APAC revenue was $82M, growth 12%, loss -$5M.",
+    "Europe revenue was $65M, growth 8%."
+  ],
+  "cases": [
+    {
+      "id": "million",
+      "answer": "APAC revenue was $82 million [1].",
+      "expected_allow": true
+    },
+    {
+      "id": "percent_words",
+      "answer": "APAC growth was 12 percent [1].",
+      "expected_allow": true
+    },
+    {
+      "id": "two_citations",
+      "answer": "APAC $82M [1]. Europe $65M [2].",
+      "expected_allow": true
+    },
+    {
+      "id": "negative",
+      "answer": "The loss was -$5 million [1].",
+      "expected_allow": true
+    },
+    {
+      "id": "full_amount",
+      "answer": "APAC revenue was $82,000,000. [1]",
+      "expected_allow": true
+    },
+    {
+      "id": "billion_equivalent",
+      "answer": "Revenue was $0.082 billion [1].",
+      "expected_allow": true
+    },
+    {
+      "id": "invented_amount",
+      "answer": "APAC revenue was $90M [1].",
+      "expected_allow": false
+    },
+    {
+      "id": "wrong_source",
+      "answer": "APAC revenue was $82M [2].",
+      "expected_allow": false
+    },
+    {
+      "id": "wrong_second_source",
+      "answer": "APAC $82M [1]. Europe $65M [1].",
+      "expected_allow": false
+    },
+    {
+      "id": "uncited_tail",
+      "answer": "APAC $82M [1] and Europe $90M.",
+      "expected_allow": false
+    },
+    {
+      "id": "percent_wrong",
+      "answer": "APAC grew 112% [1].",
+      "expected_allow": false
+    },
+    {
+      "id": "sign_wrong",
+      "answer": "The loss was $5M [1].",
+      "expected_allow": false
+    },
+    {
+      "id": "scale_wrong",
+      "answer": "APAC revenue was $82 billion [1].",
+      "expected_allow": false
+    }
+  ]
+}

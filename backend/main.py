@@ -16,6 +16,7 @@ from openai import APIConnectionError, APIStatusError
 from backend.azure import AzureProvider, validate_citations
 from backend.catalog import Catalog
 from backend.config import Settings
+from backend.evidence import check_financial_evidence
 from backend.ingestion import PIPELINE_VERSION, IngestionPipeline, utc_now
 from backend.models import Answer, ChatRequest, Document
 from backend.security import (
@@ -331,6 +332,16 @@ def create_app(settings: Settings | None = None, provider=None) -> FastAPI:
         ui = generated.get("generative_ui") if isinstance(generated, dict) else None
         text_value = generated.get("answer", "") if isinstance(generated, dict) else generated
         text, cited, grounded = validate_citations(text_value, sources)
+        evidence_checks = (
+            check_financial_evidence(text, cited)
+            if grounded and settings.financial_evidence_checks else None
+        )
+        if evidence_checks and evidence_checks["status"] == "failed":
+            text = (
+                "I couldn't verify the financial figures against their cited passages. "
+                "Try a more specific question or check the source document."
+            )
+            cited, grounded = [], False
         if ui and grounded:
             available = {source.citation for source in sources}
             ui_citations = ui.get("root", {}).get("props", {}).get("citations", [])
@@ -345,6 +356,7 @@ def create_app(settings: Settings | None = None, provider=None) -> FastAPI:
             grounded=grounded,
             duration_ms=round((time.monotonic() - started) * 1000),
             generative_ui=ui,
+            evidence_checks=evidence_checks,
         )
 
     @app.post("/retrieve")

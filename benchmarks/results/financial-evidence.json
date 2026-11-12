@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "benchmark": "financial-literal-consistency-v1",
+  "dataset_sha256": "84089a5d56b2a8901b498ec0831ecfe4ddc56de2202e554a24de33e8226196de",
+  "cases": 13,
+  "metrics": {
+    "before_case_pass_rate": 0.46153846153846156,
+    "after_case_pass_rate": 1.0,
+    "before_unsupported_accepts": 7,
+    "after_unsupported_accepts": 0,
+    "after_supported_denials": 0
+  },
+  "limitations": "Authored literal-consistency cases, not semantic claim entailment. Same number/wrong entity or period, derived quantities, chart/table UI values, spelled-out numbers and unstated currency units are not verified. Guard is opt-in.",
+  "results": [
+    {
+      "id": "million",
+      "answer": "APAC revenue was $82 million [1].",
+      "expected_allow": true,
+      "reference_only_allowed": true,
+      "financial_guard_allowed": true,
+      "before_correct": true,
+      "after_correct": true,
+      "check": {
+        "scope": "cited_money_and_percent_literals",
+        "status": "passed",
+        "checked_spans": 1,
+        "checked_values": 1,
+        "unsupported_spans": 0
+      }
+    },
+    {
+      "id": "percent_words",
+      "answer": "APAC growth was 12 percent [1].",
+      "expected_allow": true,
+      "reference_only_allowed": true,
+      "financial_guard_allowed": true,
+      "before_correct": true,
+      "after_correct": true,
+      "check": {
+        "scope": "cited_money_and_percent_literals",
+        "status": "passed",
+        "checked_spans": 1,
+        "checked_values": 1,
+        "unsupported_spans": 0
+      }
+    },
+    {
+      "id": "two_citations",
+      "answer": "APAC $82M [1]. Europe $65M [2].",
+      "expected_allow": true,
+      "reference_only_allowed": true,
+      "financial_guard_allowed": true,
+      "before_correct": true,
+      "after_correct": true,
+      "check": {
+        "scope": "cited_money_and_percent_literals",
+        "status": "passed",
+        "checked_spans": 2,
+        "checked_values": 2,
+        "unsupported_spans": 0
+      }
+    },
+    {
+      "id": "negative",
+      "answer": "The loss was -$5 million [1].",
+      "expected_allow": true,
+      "reference_only_allowed": true,
+      "financial_guard_allowed": true,
+      "before_correct": true,
+      "after_correct": true,
+      "check": {
+        "scope": "cited_money_and_percent_literals",
+        "status": "passed",
+        "checked_spans": 1,
+        "checked_values": 1,
+        "unsupported_spans": 0
+      }
+    },
+    {
+      "id": "full_amount",
+      "answer": "APAC revenue was $82,000,000. [1]",
+      "expected_allow": true,
+      "reference_only_allowed": true,
+      "financial_guard_allowed": true,
+      "before_correct": true,
+      "after_correct": true,
+      "check": {
+        "scope": "cited_money_and_percent_literals",
+        "status": "passed",
+        "checked_spans": 1,
+        "checked_values": 1,
+        "unsupported_spans": 0
+      }
+    },
+    {
+      "id": "billion_equivalent",
+      "answer": "Revenue was $0.082 billion [1].",
+      "expected_allow": true,
+      "reference_only_allowed": true,
+      "financial_guard_allowed": true,
+      "before_correct": true,
+      "after_correct": true,
+      "check": {
+        "scope": "cited_money_and_percent_literals",
+        "status": "passed",
+        "checked_spans": 1,
+        "checked_values": 1,
+        "unsupported_spans": 0
+      }
+    },
+    {
+      "id": "invented_amount",
+      "answer": "APAC revenue was $90M [1].",
+      "expected_allow": false,
+      "reference_only_allowed": true,
+      "financial_guard_allowed": false,
+      "before_correct": false,
+      "after_correct": true,
+      "check": {
+        "scope": "cited_money_and_percent_literals",
+        "status": "failed",
+        "checked_spans": 1,
+        "checked_values": 1,
+        "unsupported_spans": 1
+      }
+    },
+    {
+      "id": "wrong_source",
+      "answer": "APAC revenue was $82M [2].",
+      "expected_allow": false,
+      "reference_only_allowed": true,
+      "financial_guard_allowed": false,
+      "before_correct": false,
+      "after_correct": true,
+      "check": {
+        "scope": "cited_money_and_percent_literals",
+        "status": "failed",
+        "checked_spans": 1,
+        "checked_values": 1,
+        "unsupported_spans": 1
+      }
+    },
+    {
+      "id": "wrong_second_source",
+      "answer": "APAC $82M [1]. Europe $65M [1].",
+      "expected_allow": false,
+      "reference_only_allowed": true,
+      "financial_guard_allowed": false,
+      "before_correct": false,
+      "after_correct": true,
+      "check": {
+        "scope": "cited_money_and_percent_literals",
+        "status": "failed",
+        "checked_spans": 2,
+        "checked_values": 2,
+        "unsupported_spans": 1
+      }
+    },
+    {
+      "id": "uncited_tail",
+      "answer": "APAC $82M [1] and Europe $90M.",
+      "expected_allow": false,
+      "reference_only_allowed": true,
+      "financial_guard_allowed": false,
+      "before_correct": false,
+      "after_correct": true,
+      "check": {
+        "scope": "cited_money_and_percent_literals",
+        "status": "failed",
+        "checked_spans": 2,
+        "checked_values": 1,
+        "unsupported_spans": 1
+      }
+    },
+    {
+      "id": "percent_wrong",
+      "answer": "APAC grew 112% [1].",
+      "expected_allow": false,
+      "reference_only_allowed": true,
+      "financial_guard_allowed": false,
+      "before_correct": false,
+      "after_correct": true,
+      "check": {
+        "scope": "cited_money_and_percent_literals",
+        "status": "failed",
+        "checked_spans": 1,
+        "checked_values": 1,
+        "unsupported_spans": 1
+      }
+    },
+    {
+      "id": "sign_wrong",
+      "answer": "The loss was $5M [1].",
+      "expected_allow": false,
+      "reference_only_allowed": true,
+      "financial_guard_allowed": false,
+      "before_correct": false,
+      "after_correct": true,
+      "check": {
+        "scope": "cited_money_and_percent_literals",
+        "status": "failed",
+        "checked_spans": 1,
+        "checked_values": 1,
+        "unsupported_spans": 1
+      }
+    },
+    {
+      "id": "scale_wrong",
+      "answer": "APAC revenue was $82 billion [1].",
+      "expected_allow": false,
+      "reference_only_allowed": true,
+      "financial_guard_allowed": false,
+      "before_correct": false,
+      "after_correct": true,
+      "check": {
+        "scope": "cited_money_and_percent_literals",
+        "status": "failed",
+        "checked_spans": 1,
+        "checked_values": 1,
+        "unsupported_spans": 1
+      }
+    }
+  ]
+}
