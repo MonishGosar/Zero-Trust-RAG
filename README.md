@@ -104,6 +104,9 @@ npm.cmd run test:e2e
 
 Browser tests use isolated SQLite/Qdrant and a deterministic Azure test provider; they do not establish live Azure behavior.
 
+Permission scorecards, BEIR/SciFact retrieval, live Azure answer checks and
+regression gates are documented in [benchmarks/README.md](benchmarks/README.md).
+
 ## Repository map
 
 | Area | Purpose |

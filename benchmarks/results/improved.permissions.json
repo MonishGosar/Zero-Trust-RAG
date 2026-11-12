@@ -1,0 +1,848 @@
+{
+  "schema_version": 1,
+  "benchmark": "synthetic-permission-api-v1",
+  "source_commit": "7c1f7b5b47d7dfb47778cbabf605e7632a514894",
+  "source_dirty": true,
+  "suite_sha256": "daa227c4eae981fa0844841e18bc850de6fc5be3c5fb6c2d045cb1a60f6a150f",
+  "cases": 60,
+  "authorized_cases": 13,
+  "denied_cases": 47,
+  "metrics": {
+    "case_pass_rate": 1.0,
+    "unauthorized_context_rate": 0.0,
+    "unauthorized_response_rate": 0.0,
+    "false_denial_rate": 0.0
+  },
+  "limitations": "Synthetic policy regression, deterministic embeddings/answer double. Real auth, SQLite, Qdrant and API. Hooks force revocation interleavings; no load/concurrency statistics, Azure answer-quality, BIPIA robustness or proof of universal security.",
+  "results": [
+    {
+      "id": "matrix/admin/private",
+      "expected_allow": true,
+      "checks": {
+        "retrieval": true,
+        "answer": true,
+        "citation": true,
+        "download": true,
+        "detail": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 26.654484000118828
+    },
+    {
+      "id": "matrix/admin/finance",
+      "expected_allow": true,
+      "checks": {
+        "retrieval": true,
+        "answer": true,
+        "citation": true,
+        "download": true,
+        "detail": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 24.122745999875406
+    },
+    {
+      "id": "matrix/admin/employee",
+      "expected_allow": true,
+      "checks": {
+        "retrieval": true,
+        "answer": true,
+        "citation": true,
+        "download": true,
+        "detail": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 22.04368100001375
+    },
+    {
+      "id": "matrix/admin/named",
+      "expected_allow": true,
+      "checks": {
+        "retrieval": true,
+        "answer": true,
+        "citation": true,
+        "download": true,
+        "detail": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 20.616976000155773
+    },
+    {
+      "id": "matrix/admin/shared",
+      "expected_allow": true,
+      "checks": {
+        "retrieval": true,
+        "answer": true,
+        "citation": true,
+        "download": true,
+        "detail": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 21.248379000098794
+    },
+    {
+      "id": "matrix/admin/foreign",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 15.086632000020472
+    },
+    {
+      "id": "matrix/alice/private",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 12.318045000029088
+    },
+    {
+      "id": "matrix/alice/finance",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 13.024623000092106
+    },
+    {
+      "id": "matrix/alice/employee",
+      "expected_allow": true,
+      "checks": {
+        "retrieval": true,
+        "answer": true,
+        "citation": true,
+        "download": true,
+        "detail": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 17.74339400003555
+    },
+    {
+      "id": "matrix/alice/named",
+      "expected_allow": true,
+      "checks": {
+        "retrieval": true,
+        "answer": true,
+        "citation": true,
+        "download": true,
+        "detail": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 17.950835000192455
+    },
+    {
+      "id": "matrix/alice/shared",
+      "expected_allow": true,
+      "checks": {
+        "retrieval": true,
+        "answer": true,
+        "citation": true,
+        "download": true,
+        "detail": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 15.862150999964797
+    },
+    {
+      "id": "matrix/alice/foreign",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 11.786484000140263
+    },
+    {
+      "id": "matrix/bob/private",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 11.305588000141142
+    },
+    {
+      "id": "matrix/bob/finance",
+      "expected_allow": true,
+      "checks": {
+        "retrieval": true,
+        "answer": true,
+        "citation": true,
+        "download": true,
+        "detail": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 14.848591999907512
+    },
+    {
+      "id": "matrix/bob/employee",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 11.451172000079168
+    },
+    {
+      "id": "matrix/bob/named",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 10.970885999995517
+    },
+    {
+      "id": "matrix/bob/shared",
+      "expected_allow": true,
+      "checks": {
+        "retrieval": true,
+        "answer": true,
+        "citation": true,
+        "download": true,
+        "detail": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 17.44527700020626
+    },
+    {
+      "id": "matrix/bob/foreign",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 11.164209999833474
+    },
+    {
+      "id": "matrix/charlie/private",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 12.011072999939643
+    },
+    {
+      "id": "matrix/charlie/finance",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 11.998365999943417
+    },
+    {
+      "id": "matrix/charlie/employee",
+      "expected_allow": true,
+      "checks": {
+        "retrieval": true,
+        "answer": true,
+        "citation": true,
+        "download": true,
+        "detail": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 17.544664000070043
+    },
+    {
+      "id": "matrix/charlie/named",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 12.379661000068154
+    },
+    {
+      "id": "matrix/charlie/shared",
+      "expected_allow": true,
+      "checks": {
+        "retrieval": true,
+        "answer": true,
+        "citation": true,
+        "download": true,
+        "detail": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 18.744624999953885
+    },
+    {
+      "id": "matrix/charlie/foreign",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 15.80412599992087
+    },
+    {
+      "id": "matrix/guest/private",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 16.925072999811164
+    },
+    {
+      "id": "matrix/guest/finance",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 17.934656000079485
+    },
+    {
+      "id": "matrix/guest/employee",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 24.890212999935102
+    },
+    {
+      "id": "matrix/guest/named",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 16.5854730000774
+    },
+    {
+      "id": "matrix/guest/shared",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 18.046415000071647
+    },
+    {
+      "id": "matrix/guest/foreign",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 13.372344000117664
+    },
+    {
+      "id": "matrix/foreign/private",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 18.153867000137325
+    },
+    {
+      "id": "matrix/foreign/finance",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 14.58812000009857
+    },
+    {
+      "id": "matrix/foreign/employee",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 13.885597999887977
+    },
+    {
+      "id": "matrix/foreign/named",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 13.597996000044077
+    },
+    {
+      "id": "matrix/foreign/shared",
+      "expected_allow": false,
+      "checks": {
+        "context_denied": true,
+        "response_denied": true,
+        "no_generation": true,
+        "routes_denied": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 12.351244000001316
+    },
+    {
+      "id": "matrix/foreign/foreign",
+      "expected_allow": true,
+      "checks": {
+        "retrieval": true,
+        "answer": true,
+        "citation": true,
+        "download": true,
+        "detail": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 16.78038000000015
+    },
+    {
+      "id": "revocation/revoked_before_request/chat",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 300.5982419999782
+    },
+    {
+      "id": "revocation/revoked_before_request/chat/stream",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 252.9102949999924
+    },
+    {
+      "id": "revocation/stale_index_widened/chat",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 222.33856599996216
+    },
+    {
+      "id": "revocation/stale_index_widened/chat/stream",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 222.77893000000404
+    },
+    {
+      "id": "revocation/acl_during_embedding/chat",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 224.69858699992074
+    },
+    {
+      "id": "revocation/acl_during_embedding/chat/stream",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 250.6229190000795
+    },
+    {
+      "id": "revocation/acl_during_generation/chat",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 237.11836999996194
+    },
+    {
+      "id": "revocation/acl_during_generation/chat/stream",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 224.14006700000755
+    },
+    {
+      "id": "revocation/role_during_embedding/chat",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 209.98015400004988
+    },
+    {
+      "id": "revocation/role_during_embedding/chat/stream",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 368.24854699989373
+    },
+    {
+      "id": "revocation/role_during_generation/chat",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 237.05915200002892
+    },
+    {
+      "id": "revocation/role_during_generation/chat/stream",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 257.91704099992785
+    },
+    {
+      "id": "revocation/session_during_embedding/chat",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 240.40056299986645
+    },
+    {
+      "id": "revocation/session_during_embedding/chat/stream",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 247.45741199990334
+    },
+    {
+      "id": "revocation/session_during_generation/chat",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 218.6387909998757
+    },
+    {
+      "id": "revocation/session_during_generation/chat/stream",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 266.43618299999616
+    },
+    {
+      "id": "revocation/tenant_during_embedding/chat",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 201.08065199997327
+    },
+    {
+      "id": "revocation/tenant_during_embedding/chat/stream",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 318.8215790000868
+    },
+    {
+      "id": "revocation/tenant_during_generation/chat",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 241.59257600013007
+    },
+    {
+      "id": "revocation/tenant_during_generation/chat/stream",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 297.28880800007573
+    },
+    {
+      "id": "revocation/delete_during_embedding/chat",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 286.12757799987776
+    },
+    {
+      "id": "revocation/delete_during_embedding/chat/stream",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 311.9182269999783
+    },
+    {
+      "id": "revocation/delete_during_generation/chat",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 280.4572999998527
+    },
+    {
+      "id": "revocation/delete_during_generation/chat/stream",
+      "expected_allow": false,
+      "checks": {
+        "context_denied_when_revoked_before_generation": true,
+        "response_denied": true,
+        "denial_contract": true
+      },
+      "passed": true,
+      "unauthorized_context": false,
+      "unauthorized_response": false,
+      "duration_ms": 263.1173470001613
+    }
+  ]
+}

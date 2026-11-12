@@ -272,10 +272,23 @@ def create_app(settings: Settings | None = None, provider=None) -> FastAPI:
             raise HTTPException(409, "One or more selected documents are unavailable.")
         return request.document_ids or sorted(ready)
 
-    def retrieve(request: ChatRequest, ids: list[str], user):
+    def revalidate_access(http_request: Request, ids: list[str]):
+        # Reload the revocable session, tenant and roles after external work.
+        # The catalog is authoritative even if vector payload ACLs are stale.
+        user = current_user(http_request)
+        for document_id in set(ids):
+            document = app.state.catalog.get(document_id)
+            if not document or document.status != "ready" or not can_read(user, document):
+                app.state.security.audit(user, "permission_denied", action="query_revalidation")
+                raise HTTPException(409, "Access changed during this request. Please try again.")
+        return user
+
+    def retrieve(request: ChatRequest, ids: list[str], http_request: Request):
         if not ids:
+            revalidate_access(http_request, [])
             return []
         vector = app.state.provider.embed([request.question])[0]
+        user = revalidate_access(http_request, ids)
         sources = app.state.vectors.search(
             vector, ids, settings.retrieval_top_k, settings.retrieval_score_threshold, user=user
         )
@@ -286,6 +299,7 @@ def create_app(settings: Settings | None = None, provider=None) -> FastAPI:
             if used + source.token_count <= 12000:
                 selected.append(source.model_copy(update={"citation": len(selected) + 1}))
                 used += source.token_count
+        revalidate_access(http_request, [s.document_id for s in selected])
         return selected
 
     def trace_query(body, user, ids, sources):
@@ -301,7 +315,8 @@ def create_app(settings: Settings | None = None, provider=None) -> FastAPI:
         trace["audit_id"] = app.state.security.audit(user, "rag_retrieval", **trace)
         return trace
 
-    def generate(question, sources, started):
+    def generate(question, sources, started, http_request):
+        revalidate_access(http_request, [s.document_id for s in sources])
         if not sources:
             return Answer(
                 answer="No authorized supporting passages were found. "
@@ -312,6 +327,7 @@ def create_app(settings: Settings | None = None, provider=None) -> FastAPI:
                 duration_ms=round((time.monotonic() - started) * 1000),
             )
         generated = app.state.provider.answer(question, sources)
+        revalidate_access(http_request, [s.document_id for s in sources])
         ui = generated.get("generative_ui") if isinstance(generated, dict) else None
         text_value = generated.get("answer", "") if isinstance(generated, dict) else generated
         text, cited, grounded = validate_citations(text_value, sources)
@@ -332,25 +348,33 @@ def create_app(settings: Settings | None = None, provider=None) -> FastAPI:
         )
 
     @app.post("/retrieve")
-    def retrieve_only(request: ChatRequest, user=Depends(current_user)):
+    def retrieve_only(request: ChatRequest, http_request: Request, user=Depends(current_user)):
         ids = scope(request, user)
         try:
-            sources = retrieve(request, ids, user)
-            trace_query(request, user, ids, sources)
+            sources = retrieve(request, ids, http_request)
+            fresh_user = revalidate_access(http_request, [s.document_id for s in sources])
+            trace_query(request, fresh_user, ids, sources)
+            revalidate_access(http_request, [s.document_id for s in sources])
             return sources
+        except HTTPException:
+            raise
         except Exception as exc:
             raise HTTPException(502, safe_error(exc)) from None
 
     @app.post("/chat")
-    def chat(request: ChatRequest, user=Depends(current_user)) -> Answer:
+    def chat(request: ChatRequest, http_request: Request, user=Depends(current_user)) -> Answer:
         ids = scope(request, user)
         started = time.monotonic()
         try:
-            sources = retrieve(request, ids, user)
-            trace = trace_query(request, user, ids, sources)
-            answer = generate(request.question, sources, started)
+            sources = retrieve(request, ids, http_request)
+            fresh_user = revalidate_access(http_request, [s.document_id for s in sources])
+            trace = trace_query(request, fresh_user, ids, sources)
+            answer = generate(request.question, sources, started, http_request)
             answer.security_trace = trace
+            revalidate_access(http_request, [s.document_id for s in sources])
             return answer
+        except HTTPException:
+            raise
         except Exception as exc:
             raise HTTPException(502, safe_error(exc)) from None
 
@@ -366,15 +390,23 @@ def create_app(settings: Settings | None = None, provider=None) -> FastAPI:
 
             yield event("status", {"stage": "retrieving"})
             try:
-                sources = await asyncio.to_thread(retrieve, body, ids, user)
-                trace = await asyncio.to_thread(trace_query, body, user, ids, sources)
+                sources = await asyncio.to_thread(retrieve, body, ids, request)
+                fresh_user = await asyncio.to_thread(
+                    revalidate_access, request, [s.document_id for s in sources]
+                )
+                trace = await asyncio.to_thread(trace_query, body, fresh_user, ids, sources)
                 if await request.is_disconnected():
                     return
                 yield event("status", {"stage": "answering", "retrieved_count": len(sources)})
-                answer = await asyncio.to_thread(generate, body.question, sources, started)
+                answer = await asyncio.to_thread(generate, body.question, sources, started, request)
                 answer.security_trace = trace
                 if not await request.is_disconnected():
+                    await asyncio.to_thread(
+                        revalidate_access, request, [s.document_id for s in sources]
+                    )
                     yield event("answer", answer.model_dump())
+            except HTTPException as exc:
+                yield event("error", {"message": exc.detail})
             except Exception as exc:
                 yield event("error", {"message": safe_error(exc)})
 
