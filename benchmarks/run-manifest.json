@@ -1,0 +1,39 @@
+{
+  "baseline_commit": "7c1f7b5b47d7dfb47778cbabf605e7632a514894",
+  "final_source_sha256": {
+    "backend/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/azure.py": "808f1b41111d65df20ecbd5c3c92b2758149fe1fcfa01651203c4bb11d4ee9d1",
+    "backend/catalog.py": "5a42badb26a17471e14cadb10b586a0a133551160446c4f56da3bda2f13729b7",
+    "backend/config.py": "c1287db75b1e4a6009632e3fc1019de4f8696a6ba902f9f0d049a18275da144b",
+    "backend/ingestion.py": "c356016a8ccede7452ccb43fa8b0853d88ff14a38bb8f1e657ecc1a347acbead",
+    "backend/main.py": "13caeff3fa003264b7c33a30c18237d0e0cbb610288fefece38bab17c1d7aba4",
+    "backend/models.py": "f0f5e977230d979298c54747c46da246705de377b63bc55912f8e29ca0093900",
+    "backend/parsing.py": "97be8e8f414f526f56cff561fbb354e337350d2227b13550220234ff9b4aecf9",
+    "backend/pdf_native.py": "b58c05e851b6414f937dfa9f0ded6c81340448092a9a74886ad8ef85ea9a5687",
+    "backend/security.py": "3e569fbc5b38105743ad5b9d402fdd4120781ee045184f9467bd1c6e79f16cb8",
+    "backend/vectors.py": "83e706fb0d2395784f54b7b43f254dc1e1fadf5a2b5ba23cd9d86ef0f2b4d04a",
+    "scripts/answer_scoring.py": "a93dbb15a80a94ad827878320db455979979d883c5368e9c7d774a98e2c6c939",
+    "scripts/benchmark_answers.py": "31b57342e0d961e9c3cea4c663e55c6523b913c7d80cf2176c593553fbe5d05f",
+    "scripts/benchmark_ingestion.py": "d1e19cab95d84aa0801406b5da2119639f73c43dc772fbf80b5fc7aae7831da3",
+    "scripts/benchmark_permissions.py": "daa227c4eae981fa0844841e18bc850de6fc5be3c5fb6c2d045cb1a60f6a150f",
+    "scripts/benchmark_retrieval.py": "0585137c1b461e6ca63f495d666c641185a82bea2f9e30a7d24a2a1e1cba9de3"
+  },
+  "report_sha256": {
+    "azure.answers.json": "e13729b0c10b1a9bf3dd102cb692cfa801818e883f2c35d9ddc5c04ffd8c5bf9",
+    "azure.gpt-6-luna.answers.json": "db1a89abbc2bfb31677e7222126430e4412d9bc45525b2cfe1481a5173347173",
+    "baseline.permissions.json": "e8c0cbc717c2f32a4c0e011570d1486b85cf48142c609510ff5e80fd16a82a25",
+    "improved.permissions.json": "08d0ffef7a5c6b6715121f6eb0be0ce26a7a8a32dd751bd8cc91ddd5e1011ce3",
+    "scifact.azure.json": "a1e2f84752b287e4ab02704b2e187309cba679ec9be69a4602cc8fc8b233492f",
+    "scifact.bm25.json": "cb12a63e22fc4e18891f0b321d4fdd83fe5934b3071a3c25dd5d8cb0fb92ef68"
+  },
+  "python": "3.12.14",
+  "dependencies": {
+    "fastapi": "0.141.1",
+    "qdrant-client": "1.19.0",
+    "openai": "2.54.0",
+    "tiktoken": "0.14.0",
+    "pytest": "9.1.1"
+  },
+  "azure_final_ranking_uses_cached_real_embeddings": true,
+  "note": "Final working-tree source fingerprints. Reports identify the base commit/dirty worktree. Live answer outputs were rescored offline with literal scores preserved; final retrieval ranking reused vectors produced through Azure during this evaluation. No credential or model-version attestation is recorded."
+}

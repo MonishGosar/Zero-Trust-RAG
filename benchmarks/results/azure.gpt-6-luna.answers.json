@@ -1,0 +1,387 @@
+{
+  "schema_version": 1,
+  "benchmark": "live-azure-synthetic-answers-v1",
+  "cases": 20,
+  "available_cases": 20,
+  "dataset_sha256": "6736ccfc0c0e4f3ff6c842d51e12007127c1df1aa5c54f308b48e2cf8855d15e",
+  "configuration": {
+    "chat_deployment": "gpt-6-luna",
+    "embedding_deployment": "text-embedding-ada-002",
+    "retrieval_top_k": 5,
+    "retrieval_score_threshold": 0.25
+  },
+  "metrics": {
+    "request_success": 1.0,
+    "retrieval_hit": 1.0,
+    "answer_contains_expected": 0.8,
+    "citation_hit": 1.0,
+    "reference_valid": 1.0,
+    "answer_value_match": 1.0
+  },
+  "case_pass_rate": 0.8,
+  "limitations": "20 authored questions on one synthetic document, no independent holdout. Expected-substring matching can reject valid paraphrases. Citation hit checks source section/content; reference validity does not establish claim entailment. Not RAGBench or BIPIA. Live outputs vary; token usage/cost not measured.",
+  "results": [
+    {
+      "question": "What was APAC revenue?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "APAC revenue was $82M. [1]",
+      "passed": true,
+      "duration_ms": 1983.3632410000064,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What was EMEA revenue?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "EMEA revenue was $65M. [2]",
+      "passed": true,
+      "duration_ms": 1892.678235999938,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What was Americas revenue?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Americas revenue was $102M.[2]",
+      "passed": true,
+      "duration_ms": 2202.409002999957,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "How much did APAC grow?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "APAC grew 12% year over year. [1]",
+      "passed": true,
+      "duration_ms": 1692.923300999837,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "How much did EMEA grow?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "EMEA grew 8% year over year. [1]",
+      "passed": true,
+      "duration_ms": 2029.0016769999966,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "How much did Americas grow?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Americas revenue grew 10% year over year. [1]",
+      "passed": true,
+      "duration_ms": 2491.441471000144,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What was total revenue?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": false,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Total quarterly revenue was **$249 million**. [1]",
+      "passed": false,
+      "duration_ms": 2052.803618000098,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What drove APAC growth?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "APAC growth was driven by enterprise contracts. [2]",
+      "passed": true,
+      "duration_ms": 1824.947161000182,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What drove EMEA growth?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "EMEA growth came primarily from renewals. [1]",
+      "passed": true,
+      "duration_ms": 3523.6465679997764,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What drove Americas growth?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Americas growth came from expansion deals. [1]",
+      "passed": true,
+      "duration_ms": 2759.759735999978,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "How much were operating expenses?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": false,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Operating expenses were $171 million. [1]",
+      "passed": false,
+      "duration_ms": 2102.0068089999313,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What were research and development expenses?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Research and development expenses were $54M. [1]",
+      "passed": true,
+      "duration_ms": 3023.9258880001216,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "How much was spent on sales and marketing?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": false,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "$72 million was spent on sales and marketing. [1]",
+      "passed": false,
+      "duration_ms": 2023.7431570001263,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What were general and administrative expenses?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": false,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "General and administrative expenses were $45 million. [1]",
+      "passed": false,
+      "duration_ms": 1833.2687990000522,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "How many enterprise customers were there?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "There were 1,420 enterprise customers at the end of the quarter. [1]",
+      "passed": true,
+      "duration_ms": 2546.0853990000487,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What was net revenue retention?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Net revenue retention was 118%. [1]",
+      "passed": true,
+      "duration_ms": 2613.0039980000674,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What was customer satisfaction?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Customer satisfaction was 91%.[1]",
+      "passed": true,
+      "duration_ms": 1940.1803430000655,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What was annual logo churn?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Annual logo churn was 4%.[1]",
+      "passed": true,
+      "duration_ms": 2160.397198000055,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What is the next-quarter priority?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "The next-quarter priority is improving onboarding, with a target of reducing time to first value from 14 days to 7 days. The onboarding team owns the initiative. [1]",
+      "passed": true,
+      "duration_ms": 1846.1983039999268,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What is the primary risk?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "The primary risk is delayed enterprise procurement. The mitigation is to conduct security reviews earlier. [1]",
+      "passed": true,
+      "duration_ms": 1952.4325740001132,
+      "http_status": [
+        200,
+        200
+      ]
+    }
+  ],
+  "value_case_pass_rate": 1.0,
+  "scoring_note": "Original literal scores retained. Value matching also accepts equivalent dollar scales ($54M/$54 million), comma formatting and percent wording. Matches values anywhere in the answer; it is not a claim-level factuality/entailment judgment."
+}

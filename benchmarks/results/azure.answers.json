@@ -1,0 +1,387 @@
+{
+  "schema_version": 1,
+  "benchmark": "live-azure-synthetic-answers-v1",
+  "cases": 20,
+  "available_cases": 20,
+  "dataset_sha256": "6736ccfc0c0e4f3ff6c842d51e12007127c1df1aa5c54f308b48e2cf8855d15e",
+  "configuration": {
+    "chat_deployment": "gpt-5-mini",
+    "embedding_deployment": "text-embedding-ada-002",
+    "retrieval_top_k": 5,
+    "retrieval_score_threshold": 0.25
+  },
+  "metrics": {
+    "request_success": 1.0,
+    "retrieval_hit": 1.0,
+    "answer_contains_expected": 0.95,
+    "citation_hit": 1.0,
+    "reference_valid": 1.0,
+    "answer_value_match": 1.0
+  },
+  "case_pass_rate": 0.95,
+  "limitations": "20 authored questions on one synthetic document, no independent holdout. Expected-substring matching can reject valid paraphrases. Citation hit checks source section/content; reference validity does not establish claim entailment. Not RAGBench or BIPIA. Live outputs vary; token usage/cost not measured.",
+  "results": [
+    {
+      "question": "What was APAC revenue?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "According to the \"Revenue by region\" table, APAC revenue was $82M [1].",
+      "passed": true,
+      "duration_ms": 4558.410177000042,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What was EMEA revenue?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "EMEA revenue was $65M [2].\n\nThe report also states total quarterly revenue was $249M [1]; the regional breakdown in the report lists APAC $82M and Americas $102M alongside EMEA $65M [2].",
+      "passed": true,
+      "duration_ms": 5797.956268999997,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What was Americas revenue?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Americas revenue was $102M [2].",
+      "passed": true,
+      "duration_ms": 4530.837366000014,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "How much did APAC grow?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "According to the report, APAC revenue was $82M, a 12% year\u2011over\u2011year increase [1]. The report also notes that APAC growth was driven by enterprise contracts [2].",
+      "passed": true,
+      "duration_ms": 4632.16929400005,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "How much did EMEA grow?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "EMEA grew 8% year\u2011over\u2011year, with quarterly revenue of $65M [1].\n\nThe report says EMEA growth came primarily from renewals [2].",
+      "passed": true,
+      "duration_ms": 4698.7537579999525,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "How much did Americas grow?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Americas grew 10% year-over-year (Americas revenue was $102M) [1].\n\nThe report also states that Americas growth came from expansion deals [2].",
+      "passed": true,
+      "duration_ms": 4614.74131500006,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What was total revenue?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Total quarterly revenue was $249M. [1][2]\n\nRegional breakdown \u2014 APAC: $82M; EMEA: $65M; Americas: $102M (these region amounts sum to $249M). [2][1]",
+      "passed": true,
+      "duration_ms": 5413.292585000022,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What drove APAC growth?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Source statement: APAC growth was driven by enterprise contracts. [2]\n\nContext: APAC revenue was $82M, a 12% year\u2011over\u2011year increase. [1]",
+      "passed": true,
+      "duration_ms": 5869.333494999978,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What drove EMEA growth?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "The report states that EMEA growth came primarily from renewals [1].\n\nEMEA revenue was $65M with year-over-year growth of 8% [2].",
+      "passed": true,
+      "duration_ms": 3825.0051119999853,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What drove Americas growth?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Americas growth was driven by expansion deals [1]. Americas revenue was $102M, a 10% year-over-year increase [2].",
+      "passed": true,
+      "duration_ms": 5411.010282999996,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "How much were operating expenses?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Operating expenses were $171M. Research and development accounted for $54M, sales and marketing for $72M, and general and administrative expenses for $45M [1].",
+      "passed": true,
+      "duration_ms": 5782.882338000036,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What were research and development expenses?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": false,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Research and development expenses were $54 million [1].",
+      "passed": false,
+      "duration_ms": 4057.5409959999433,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "How much was spent on sales and marketing?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Sales and marketing expenses were $72M [1].",
+      "passed": true,
+      "duration_ms": 3565.7767159999594,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What were general and administrative expenses?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "The report states that general and administrative expenses were $45M. It also reports total operating expenses of $171M, with research and development at $54M and sales and marketing at $72M [1].",
+      "passed": true,
+      "duration_ms": 4396.569792999912,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "How many enterprise customers were there?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "The report states Northstar ended the quarter with 1,420 enterprise customers [1].",
+      "passed": true,
+      "duration_ms": 3445.0938480001696,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What was net revenue retention?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Net revenue retention was 118% [1].",
+      "passed": true,
+      "duration_ms": 3141.0198089999994,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What was customer satisfaction?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "The report states customer satisfaction was 91% [1].",
+      "passed": true,
+      "duration_ms": 3535.915382999974,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What was annual logo churn?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Annual logo churn was 4% [1].",
+      "passed": true,
+      "duration_ms": 3637.1487039998556,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What is the next-quarter priority?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "The next-quarter priority is improving onboarding. The onboarding team owns the initiative, with a target to reduce time to first value from 14 days to 7 days [1].",
+      "passed": true,
+      "duration_ms": 4306.593030000158,
+      "http_status": [
+        200,
+        200
+      ]
+    },
+    {
+      "question": "What is the primary risk?",
+      "checks": {
+        "request_success": true,
+        "retrieval_hit": true,
+        "answer_contains_expected": true,
+        "citation_hit": true,
+        "reference_valid": true,
+        "answer_value_match": true
+      },
+      "answer": "Primary risk: delayed enterprise procurement. [1]\n\nMitigation noted: earlier security reviews. [1]",
+      "passed": true,
+      "duration_ms": 4800.451702000146,
+      "http_status": [
+        200,
+        200
+      ]
+    }
+  ],
+  "value_case_pass_rate": 1.0,
+  "scoring_note": "Original literal scores retained. Value matching also accepts equivalent dollar scales ($54M/$54 million), comma formatting and percent wording. Matches values anywhere in the answer; it is not a claim-level factuality/entailment judgment."
+}

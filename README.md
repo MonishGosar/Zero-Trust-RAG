@@ -1,6 +1,6 @@
 # Folio / Zero-Trust RAG
 
-Folio lets teams ask questions across company documents without turning search into a data-leak path. Access is checked before retrieval, the model sees only authorized passages, and every answer carries evidence.
+Folio is a local reference application for document Q&A with tenant and document permissions, source citations, and an access trace. Access is checked before retrieval and rechecked during a request; detected revocations suppress the result. The model does not decide who can read a document.
 
 ![Access Map beside a grounded answer](docs/screenshots/access-map.png)
 
@@ -11,6 +11,62 @@ Folio lets teams ask questions across company documents without turning search i
 - **Reduce disclosure risk:** private documents are removed before the model sees context.
 - **Increase answer confidence:** every answer includes citations, source excerpts, and a security trace.
 - **Make access explainable:** managers can see why a document was allowed or filtered without exposing hidden document names.
+
+## Measured results
+
+| Evaluation | Recorded result | Scope |
+| --- | --- | --- |
+| Permission suite | 40/60 → 60/60 cases pass | Real API/auth/SQLite/Qdrant with a deterministic provider and forced revocation interleavings. |
+| Unauthorized responses among denial cases | 20/47 → 0/47 | Checks context, responses, IDs, filenames and content routes in the defined suite. |
+| Incorrect denials among authorized cases | 0/13 before and after | Authorized access remains useful in the tested matrix. |
+| SciFact: Azure `text-embedding-ada-002` + Qdrant | nDCG@10 **0.7292**, Recall@10 **0.8459** | Full corpus: 5,183 documents, 300 test queries. |
+| SciFact: independent BM25 reference | nDCG@10 **0.6617**, Recall@10 **0.7909** | Same corpus and relevance judgments; a lexical comparison, not a before/after product change. |
+| Azure `gpt-6-luna` answer smoke test | **20/20** expected-value and citation checks | 20 authored questions on one fictional document. Original literal matching is 16/20; equivalent numeric formats are accepted by the value matcher. |
+
+The public retrieval benchmark ranks an isolated, entirely authorized corpus with one passage per document; it omits always-true policy filters and checks five queries against production filtered search. It does not measure the full ingestion/chunking pipeline, permission quality, or production filter latency. Answer value/citation hits do not establish claim entailment. These results do not establish superiority over competing products or universal security.
+
+```sh
+uv run python -m scripts.benchmark_permissions --output benchmark-output/permissions.json --gate
+uv run python -m scripts.benchmark_answers --output benchmark-output/answers.json --gate
+```
+
+The permission run needs no Azure credentials. The answer run uses your configured Azure deployments. See [benchmark setup, raw reports, scoring limits and CI gates](benchmarks/README.md).
+
+## Optional financial evidence check
+
+Set `FINANCIAL_EVIDENCE_CHECKS=true` to check literal money and percentage values in answer text against the passages cited after each claim span. It understands formats such as `$82M`, `$82 million` and `$82,000,000`, preserves signs/scales, and withholds the answer when a financial value is unsupported by its cited passages or appears in an uncited tail. It also suppresses generated UI when the answer is withheld. The API reports the check's scope and `passed`, `failed` or `not_checked` status in `evidence_checks`.
+
+The guard is opt-in because it is deliberately conservative: derived amounts, spelled-out numbers, values whose units exist only in table headers, entity/period attribution, non-numeric prose and chart/table UI values are not semantically verified. A supported number with the wrong entity can still pass. A valid citation plus a matching value is not proof that every claim is true.
+
+The [13-case regression report](benchmarks/results/financial-evidence.json) shows unsupported-value acceptance falling from **7 to 0**, while all **6 supported cases** remain allowed. These are authored literal-consistency cases, not RAGBench or a semantic claim-precision score. The existing 60-case permission suite also passes with this option enabled.
+
+## Embed through the preview Python SDK
+
+```sh
+pip install ./sdk/python
+```
+
+The independent `folio-client` preview provides asynchronous login/logout, typed retrieval and answers, progress events and final streamed answers. Tenant/ACL enforcement stays on the API; the SDK has no client-side authorization bypass or result cache. Use a separate Folio session for each end user. SharePoint/Entra identity mapping and source ACL synchronization are not implemented.
+
+See the [SDK usage and session contract](sdk/python/README.md). Integration tests cover anonymous and forbidden access, allowed answers/evidence, logout, failed identity switches and stream errors after HTTP 200.
+
+## Product direction and priorities
+
+The proposed customer is a SaaS team embedding document answers into its own application. The goal is an **embeddable permission and evidence layer with measurable source-permission freshness and replayable access decisions**. A preview Python SDK is available; a stable production SDK contract, external identity integration and source ACL synchronization are planned. The current reference app uses its local accounts and document policies. The optional numeric evidence guard is an initial consistency check; full claim-level support remains planned.
+
+Permission-aware search and revocation testing already exist in enterprise products; [Glean documents tests for identity changes, source permissions, caches, citations and sync timing](https://www.glean.com/perspectives/how-do-you-test-ai-search-permissions-after-an-employee-changes-teams). Our hypothesis is that application teams will value easier embedding into their own stack and independently inspectable evidence. Integration effort and customer outcomes must be measured before claiming an advantage.
+
+| Priority | Planned improvement | Proof that it helps |
+| --- | --- | --- |
+| 1 | Harden the preview SDK's production contract and add managed identity integration plus one real source connector, starting with SharePoint/Entra ID. Preserve inherited ACLs, direct shares, groups, guests and deletion events. | A pilot team embeds it without manually recreating document permissions; compare integration time with its current approach. |
+| 2 | Track source permission versions, policy observation times, cache invalidation and decision reasons. Export access-decision records that a customer can replay. | Measure source-change-to-enforcement p50/p95/p99 and worst observed delay; exercise stale ACLs, outages, in-flight revocation and deletion. Publish the supported freshness contract and test authorized access alongside denials. |
+| 3 | Check support for individual answer claims, especially amounts, percentages and dates. Abstain or remove unsupported claims. | Human-reviewed held-out questions show better supported-claim precision while preserving useful answers; measure false abstentions separately. A valid citation number alone is insufficient. |
+| 4 | Compare dense retrieval, lexical+dense hybrid search and reranking. Apply tenant/ACL checks before every retrieval branch and before any external reranker receives passages. | Improve retrieval on training data, then evaluate untouched SciFact and a second corpus, while preserving the permission gate. Report answer quality, latency and cost as well as nDCG/Recall. |
+| 5 | Add production metadata storage, managed vector storage, durable ingestion workers, retries and deletion propagation. | Restart/load/connector-failure tests demonstrate recovery, bounded policy staleness and continued tenant isolation. |
+
+The next useful demo is an employee losing access in SharePoint while a question is running: show when the source change is observed, which policy version each gate used, what context was sent while authorized, and why the response was withheld. Pair it with an authorized user who still gets a supported answer.
+
+The next evaluation should use a larger independently reviewed user/tenant/source matrix and held-out answer questions, including unanswerable and malicious-document cases. Compare against the same model with a standard RAG pipeline and any commercial option actually available to the pilot team, under comparable permissions, data and budgets. Report leaks, false denials, supported claims, integration effort, latency and cost separately. [RAGBench](https://github.com/rungalileo/ragbench) and [BIPIA](https://github.com/microsoft/BIPIA) are planned evaluation inputs; neither score is claimed here.
 
 ## The architecture gate
 
@@ -23,7 +79,9 @@ flowchart LR
     R --> A[Authorized passages only]
     A --> D[Write retrieval audit]
     D --> M[Azure OpenAI]
-    M --> C[Cited answer and trust trace]
+    M --> V{Recheck identity and source access}
+    V -->|unchanged access| C[Cited answer and trust trace]
+    V -->|revoked or unavailable| X
 ```
 
 The gate is the product boundary:
@@ -40,8 +98,9 @@ This rule is applied in the API and Qdrant before generation. Azure OpenAI never
 2. An administrator uploads a document and assigns roles or specific people.
 3. Chunks inherit the document policy when they are indexed in Qdrant.
 4. A question runs through the policy gate before similarity search.
-5. The answer is generated from authorized passages and returned with citations.
-6. The inline **Trust summary** and **Access Map** show the decision beside the answer.
+5. Access is rechecked before generation and before release; detected changes suppress the result.
+6. The answer is generated from authorized passages and returned with citations.
+7. The inline **Trust summary** and **Access Map** show the decision beside the answer.
 
 ## Run locally
 
@@ -89,7 +148,7 @@ Qdrant uses `.data/qdrant` by default. Run one local API process because embedde
 
 ## Current boundaries
 
-This is a local reference application. PostgreSQL, managed SSO, durable workers, reranking, persisted chat, and live Azure browser coverage are future work. Citation checks verify that references exist; they do not prove every claim is factually supported. See [ARCHITECTURE.md](ARCHITECTURE.md) for the detailed policy and security limits.
+This is a local reference application. PostgreSQL, managed SSO, source ACL synchronization, a stable application SDK, durable workers, reranking, persisted chat, and live Azure browser coverage are future work. Citation checks verify that references exist; they do not prove every claim is factually supported. A change after the final access check still races with delivery, and context already sent while authorized cannot be recalled. See [ARCHITECTURE.md](ARCHITECTURE.md) for the detailed policy and security limits.
 
 ## Verify changes
 

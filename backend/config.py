@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     max_upload_mb: int = Field(default=20, ge=1, le=100)
     retrieval_top_k: int = Field(default=5, ge=1, le=20)
     retrieval_score_threshold: float = Field(default=0.25, ge=-1, le=1)
+    financial_evidence_checks: bool = False
     pdf_parsing_mode: Literal["auto", "docling"] = "auto"
     embedding_batch_size: int = Field(default=32, ge=1, le=128)
     embedding_batch_max_tokens: int = Field(default=24000, ge=6000, le=100000)

@@ -76,8 +76,21 @@ operational controls and an independent security review. Audit rows are durable
 locally but not tamper-evident to a database administrator. This is not a claim
 that ACLs solve prompt injection in documents the user is allowed to read.
 
-Retrieval authorization is a request snapshot: an already-started generation may
-finish after a concurrent permission change. Citation validation establishes
+An optional `FINANCIAL_EVIDENCE_CHECKS` guard binds literal money/percentage
+values in answer text to their trailing citations. It withholds unsupported
+values and exposes scoped check status; it does not establish semantic entailment,
+entity/period attribution, derived values or UI-data correctness. The independent
+preview Python SDK sends the caller's Folio session and preserves server-side
+authorization; it does not add source ACL synchronization or managed SSO.
+
+Session, current tenant/roles, and catalog document policy are rechecked after
+embedding, after vector search, before generation, and before releasing retrieval
+results or an answer (including the final streaming event). A detected revocation
+suppresses the entire result. Stale vector grants cannot override the catalog.
+An already-started Azure call may finish and cannot undo context previously sent
+while authorized. Checks are not an atomic transaction with network delivery:
+changes after the last check remain a race. This is not a zero-window revocation
+guarantee. Citation validation establishes
 reference validity, not factual entailment. Chat history remains browser memory.
 
 ## Reference documentation

@@ -1,0 +1,27 @@
+name: Permission benchmarks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.12'
+      # The permission suite uses Markdown; GPU document conversion is outside its scope.
+      - run: uv export --locked --no-hashes --prune docling --no-emit-project --output-file /tmp/benchmark-requirements.txt
+      - run: uv venv && uv pip install -r /tmp/benchmark-requirements.txt
+      - run: uv pip install --no-deps ./sdk/python
+      - run: uv run --no-sync ruff check backend tests scripts sdk/python/src
+      - run: uv run --no-sync pytest -q tests/test_security.py tests/test_azure.py tests/test_benchmark_metrics.py tests/test_answer_scoring.py tests/test_evidence.py tests/test_sdk.py
+      - run: uv run --no-sync python -m scripts.benchmark_permissions --output benchmark-output/permissions.json --gate
+        env:
+          FINANCIAL_EVIDENCE_CHECKS: 'true'
+      - run: uv run --no-sync python -m scripts.benchmark_financial_evidence --output benchmark-output/financial-evidence.json --gate
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: permission-scores
+          path: benchmark-output/
